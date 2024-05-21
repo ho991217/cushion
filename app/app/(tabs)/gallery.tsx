@@ -1,5 +1,6 @@
+import WebViewScreen from '@/components/WebviewScreen';
 import { Text } from 'react-native';
 
 export default function GalleryScreen() {
-  return <Text>Gallery</Text>;
+  return <WebViewScreen path='/gallery' />;
 }

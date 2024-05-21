@@ -1,5 +1,8 @@
+type VibrationType = 'light' | 'medium' | 'heavy' | 'soft' | 'rigid';
+
 type UseReactNativeWebview = {
   isApp: boolean;
+  vibrate: (type: VibrationType) => void;
   postMessage: (message: string) => void;
 };
 
@@ -12,8 +15,13 @@ export default function useReactNativeWebview(): UseReactNativeWebview {
     }
   };
 
+  const vibrate = (type: VibrationType) => {
+    postMessage(JSON.stringify({ type: 'haptic', data: type }));
+  };
+
   return {
     isApp,
     postMessage,
+    vibrate,
   };
 }
