@@ -2,6 +2,7 @@ import { View, ActivityIndicator } from 'react-native';
 
 import { WebView, WebViewProps } from 'react-native-webview';
 import * as Haptics from 'expo-haptics';
+import { webUrl } from '@/constants/urls';
 
 interface WebViewScreenProps extends Omit<WebViewProps, 'source'> {
   path: string;
@@ -18,13 +19,10 @@ const WebViewMessageHandler = (event: any) => {
 };
 
 export default function WebViewScreen({ path, ...props }: WebViewScreenProps) {
-  const baseUrl = 'http://localhost:5173';
-  // const baseUrl = 'https://senior-cushion.vercel.app';
-
   return (
     <WebView
       onMessage={WebViewMessageHandler}
-      source={{ uri: `${baseUrl}${path}` }}
+      source={{ uri: `${webUrl}${path}` }}
       startInLoadingState
       scrollEnabled={false}
       renderLoading={() => (

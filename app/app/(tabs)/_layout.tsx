@@ -46,7 +46,7 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name='explore'
+        name='setting'
         listeners={{ tabPress }}
         options={{
           title: '설정',
