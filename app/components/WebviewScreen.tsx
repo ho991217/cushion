@@ -7,10 +7,8 @@ interface WebViewScreenProps extends Omit<WebViewProps, 'source'> {
 }
 
 export default function WebViewScreen({ path, ...props }: WebViewScreenProps) {
-  const baseUrl =
-    process.env.NODE_ENV === 'development'
-      ? 'http://localhost:5173'
-      : 'https://senior-cushion.vercel.app';
+  // const baseUrl ='http://localhost:5173'
+  const baseUrl = 'https://senior-cushion.vercel.app';
 
   return (
     <WebView

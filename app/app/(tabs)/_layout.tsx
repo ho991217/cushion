@@ -3,8 +3,13 @@ import React from 'react';
 
 import { TabBarIcon } from '@/components/navigation/TabBarIcon';
 import { Colors } from '@/constants/Colors';
+import * as Haptics from 'expo-haptics';
 
 export default function TabLayout() {
+  const tabPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
+
   return (
     <Tabs
       screenOptions={{
@@ -14,6 +19,7 @@ export default function TabLayout() {
     >
       <Tabs.Screen
         name='gallery'
+        listeners={{ tabPress }}
         options={{
           title: '갤러리',
           tabBarIcon: ({ color, focused }) => (
@@ -27,6 +33,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name='index'
+        listeners={{ tabPress }}
         options={{
           title: '홈',
           tabBarIcon: ({ color, focused }) => (
@@ -40,6 +47,7 @@ export default function TabLayout() {
       />
       <Tabs.Screen
         name='explore'
+        listeners={{ tabPress }}
         options={{
           title: '설정',
           tabBarIcon: ({ color, focused }) => (
