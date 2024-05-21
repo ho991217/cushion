@@ -10,8 +10,9 @@ type LinkProps = PropsWithChildren<{
 }>;
 
 export default function Link({ to, children, hardLink, className }: LinkProps) {
-  const { isApp, navigate } = useReactNativeWebview();
+  const { isApp, navigate, vibrate } = useReactNativeWebview();
   const onClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    vibrate('soft');
     if (hardLink && isApp) {
       e.preventDefault();
       navigate(to);
