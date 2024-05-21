@@ -1,17 +1,9 @@
-import { Button } from '@/components/ui/button';
-import { useReactNativeWebview } from './hooks';
+import Router from './router';
 
 function App() {
-  const { postMessage } = useReactNativeWebview();
   return (
-    <div className='w-screen h-screen flex items-center justify-center'>
-      <Button
-        onClick={() => {
-          postMessage('Hello from web!');
-        }}
-      >
-        헬로
-      </Button>
+    <div className='w-screen h-screen flex flex-col items-center justify-start bg-black text-white p-5 overflow-y-scroll overflow-x-hidden'>
+      <Router />
     </div>
   );
 }
