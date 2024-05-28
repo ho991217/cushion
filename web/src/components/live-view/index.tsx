@@ -1,37 +1,40 @@
-import { useEffect, useRef, useState } from 'react';
-import socket from '@/lib/socket';
+import { useEffect } from 'react';
+import JSMpeg from '@cycjimmy/jsmpeg-player';
+import axios from 'axios';
 
-export default function LiveView() {
-  const [received, setReceived] = useState<string>('');
-  const videoRef = useRef<HTMLVideoElement | null>(null);
+const StreamPlayer = () => {
   useEffect(() => {
-    navigator.mediaDevices
-      .getUserMedia({ video: true, audio: false })
-      .then((stream) => {
-        videoRef.current!.srcObject = stream;
-      });
+    const url = 'ws://localhost:9999';
+    const canvas = document.getElementById('video-canvas') as HTMLCanvasElement;
+    new JSMpeg.Player(url, { canvas: canvas });
   }, []);
 
+  const rtspurl = 'rtsp://ho991217:jy219512@192.168.0.102:554/stream2';
+
+  const httpRequest = (url: string) => {
+    try {
+      axios.get(`http://localhost:3002/stream?rtsp=${url}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const startRTSPFeed = () => {
+    httpRequest(rtspurl);
+  };
+
+  const stopRTSPFeed = () => {
+    httpRequest('stop');
+  };
+
   useEffect(() => {
-    socket.connect();
-    socket.on('connect', () => {
-      console.log('Connected');
-    });
-
-    socket.on('receive_message', (data) => {
-      console.log(data);
-      setReceived(data);
-    });
-
+    startRTSPFeed();
     return () => {
-      socket.close();
+      stopRTSPFeed();
     };
   }, []);
 
-  return (
-    <div>
-      {/* <video ref={videoRef} autoPlay playsInline></video> */}
-      {received}
-    </div>
-  );
-}
+  return <canvas id='video-canvas' className='object-cover w-full' />;
+};
+
+export default StreamPlayer;

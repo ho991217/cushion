@@ -6,7 +6,7 @@ export default function HomePage() {
     <section className='w-full flex flex-col items-center'>
       <div className='w-full flex flex-col gap-4 mb-4'>
         <Header title='라이브 뷰' more='자세히 보기' />
-        <Tile className='w-full aspect-[2/1]'>
+        <Tile className='w-full aspect-[2/1] overflow-hidden'>
           <LiveView />
         </Tile>
       </div>

@@ -1,0 +1,10 @@
+{
+  "name": "host",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "이호연",
+  "license": "MIT",
+  "dependencies": {
+    "socket.io-client": "^4.7.5"
+  }
+}

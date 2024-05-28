@@ -9,12 +9,15 @@
     "userInterfaceStyle": "automatic",
     "splash": {
       "image": "./assets/images/splash.png",
-
       "resizeMode": "contain",
       "backgroundColor": "#000"
     },
     "ios": {
-      "supportsTablet": false
+      "supportsTablet": false,
+      "infoPlist": {
+        "AllowArbitraryLoads": true,
+        "AllowArbitraryLoadsInWebContent": true
+      }
     },
     "android": {
       "adaptiveIcon": {
