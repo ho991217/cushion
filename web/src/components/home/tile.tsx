@@ -6,6 +6,13 @@ export default function Tile({
   className,
 }: PropsWithChildren<{ className?: string }>) {
   return (
-    <div className={cn('bg-gray-900 rounded-2xl', className)}>{children}</div>
+    <div
+      className={cn(
+        'bg-gray-900 rounded-2xl active:scale-[98%] transition-transform',
+        className
+      )}
+    >
+      {children}
+    </div>
   );
 }

@@ -1,5 +1,6 @@
 import { Header, Tile } from '@/components/home';
 import LiveView from '@/components/live-view';
+import { FaPhoneFlip } from 'react-icons/fa6';
 
 export default function HomePage() {
   return (
@@ -11,7 +12,12 @@ export default function HomePage() {
         </Tile>
       </div>
       <div className='w-full grid gap-4 grid-cols-2'>
-        <Tile className='w-full aspect-square' />
+        <a href='tel:119'>
+          <Tile className='w-full aspect-square flex items-center justify-center flex-col gap-2 bg-red-500'>
+            <FaPhoneFlip size={32} />
+            <h4 className='text-lg font-bold'>응급 전화</h4>
+          </Tile>
+        </a>
         <Tile className='w-full aspect-square' />
       </div>
     </section>
