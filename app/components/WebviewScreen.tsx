@@ -7,9 +7,14 @@ import { useRouter } from 'expo-router';
 
 interface WebViewScreenProps extends Omit<WebViewProps, 'source'> {
   path: string;
+  scrollEnabled?: boolean;
 }
 
-export default function WebViewScreen({ path, ...props }: WebViewScreenProps) {
+export default function WebViewScreen({
+  path,
+  scrollEnabled = false,
+  ...props
+}: WebViewScreenProps) {
   const router = useRouter();
 
   const webViewMessageHandler = (event: any) => {
@@ -30,12 +35,12 @@ export default function WebViewScreen({ path, ...props }: WebViewScreenProps) {
       onMessage={webViewMessageHandler}
       source={{ uri: `${webUrl}${path}` }}
       startInLoadingState
-      scrollEnabled={false}
       renderLoading={() => (
         <View style={{ flex: 1, alignItems: 'center' }}>
           <ActivityIndicator size='large' />
         </View>
       )}
+      scrollEnabled={scrollEnabled}
       allowsBackForwardNavigationGestures
       style={{ backgroundColor: 'transparent' }}
       {...props}
