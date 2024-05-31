@@ -1,5 +1,5 @@
-import { Text } from 'react-native';
+import WebViewScreen from '@/components/WebviewScreen';
 
 export default function StackIndex() {
-  return <Text>Stack Index</Text>;
+  return <WebViewScreen path='/notification' />;
 }
