@@ -9,7 +9,7 @@ export default function HomePage() {
       <div className='w-full flex flex-col gap-4 mb-4'>
         <Header title='라이브 뷰' more='자세히 보기' />
         <Tile className='w-full aspect-[2/1] overflow-hidden relative'>
-          <Image src={Demo} alt='이미지' objectFit='cover' />
+          <Image src={Demo} alt='이미지' objectFit='cover' fill />
         </Tile>
       </div>
       <div className='w-full grid gap-4 grid-cols-2'>
