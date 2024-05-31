@@ -1,8 +1,10 @@
 import { cn } from '@/lib/utils';
 import Image, { type StaticImageData } from 'next/image';
 import { FaChevronRight } from 'react-icons/fa6';
+import { Link } from '../common';
 
 type BlockProps = {
+  id: string;
   thumbnail: string | StaticImageData;
   title: string;
   date: string;
@@ -10,13 +12,15 @@ type BlockProps = {
 };
 
 export default function Block({
+  id,
   thumbnail,
   title,
   date,
   className,
 }: BlockProps) {
   return (
-    <div
+    <Link
+      to={`/gallery/${id}`}
       className={cn(
         'flex flex-col w-full rounded-2xl border border-input bg-background p-4 items-start justify-center text-sm active:scale-[98%] active:opacity-80 transition-all select-none',
         className
@@ -26,6 +30,8 @@ export default function Block({
         <Image
           src={thumbnail}
           alt={title}
+          width={80}
+          height={80}
           className='h-20 w-20 rounded-xl object-cover border border-input'
         />
         <div className='flex flex-col h-full items-start justify-between'>
@@ -38,6 +44,6 @@ export default function Block({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

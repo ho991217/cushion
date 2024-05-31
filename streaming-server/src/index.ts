@@ -1,73 +1,73 @@
-import { VideoCapture } from 'camera-capture';
-const express = require('express');
-const Stream = require('node-rtsp-stream');
-const cors = require('cors');
+import express from 'express';
+import http from 'http';
+import cors from 'cors';
+import { Server } from 'socket.io';
 
 const app = express();
-const port = 3002;
-let stream = null as any;
+app.use(cors());
 
-app.use(
-  cors({
+const port = 3001;
+const server = http.createServer(app);
+
+const io = new Server(server, {
+  cors: {
     origin: '*',
-    credentials: true,
-  })
-);
+    methods: ['GET', 'POST'],
+  },
+});
 
-app.get('/stream', (req: any, res: any) => {
-  try {
-    const newRtspStreamUrl = req.query.rtsp;
-    let currentRtspStreamUrl = '';
+const totalRooms: Record<string, { users: string[] }> = {};
 
-    if (!stream || currentRtspStreamUrl !== newRtspStreamUrl) {
-      if (stream || newRtspStreamUrl === 'stop') {
-        stream.stop();
-      }
-      stream = new Stream({
-        name: 'Camera Stream',
-        streamUrl: newRtspStreamUrl,
-        wsPort: 9999,
-      });
-      currentRtspStreamUrl = newRtspStreamUrl;
+io.on('connection', (socket: any) => {
+  console.log('a user connected');
+
+  socket.on('join', (data: { room: string }) => {
+    if (!data.room) return;
+
+    socket.join(data.room);
+
+    // 방이 없으면 방을 만들어준다.
+    if (!totalRooms[data.room]) {
+      totalRooms[data.room] = { users: [] };
     }
 
-    res.send(200).json({ url: `ws://localhost:9999` });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send('Internal Server Error');
-  }
-});
+    totalRooms[data.room].users.push(socket.id);
+    socket.room = data.room;
 
-function sleep(ms: number) {
-  return new Promise((resolve) => setTimeout(resolve, ms));
-}
-
-const { writeFileSync } = require('fs');
-
-app.get('/hello', async (req: any, res: any) => {
-  const c = new VideoCapture({ port: 8082 });
-  await c.initialize();
-  await c.startRecording();
-  await sleep(5_000);
-  const data = await c.stopRecording();
-  writeFileSync('src/model/input_videos/tmp6.mp4', data);
-
-  const spawn = require('child_process').spawn;
-
-  const process = spawn('python', [
-    'src/model/frame.py',
-    'src/model/input_videos',
-  ]);
-
-  process.stdout.on('data', function (data: any) {
-    res.send(data.toString());
+    console.log(`join room ${data.room}. Socket ID: ${socket.id}`);
   });
 
-  process.stderr.on('data', function (data: any) {
-    console.error(data.toString());
+  socket.on('offer', (data: { sdp: string; room: string }) => {
+    console.log('offer', data);
+    socket.to(data.room).emit('offer', { sdp: data.sdp, sender: socket.id });
+  });
+
+  socket.on('answer', (data: { sdp: string; room: string }) => {
+    console.log('answer', data);
+    socket.to(data.room).emit('answer', { sdp: data.sdp, sender: socket.id });
+  });
+
+  socket.on('candidate', (data: { candidate: string; room: string }) => {
+    socket.to(data.room).emit('candidate', {
+      candidate: data.candidate,
+      sender: socket.id,
+    });
+  });
+
+  socket.on('disconnect', () => {
+    // 연결이 끊어지면 방에서 사용자를 제거
+    if (socket.room && totalRooms[socket.room]) {
+      totalRooms[socket.room].users = totalRooms[socket.room].users.filter(
+        (id) => id !== socket.id
+      );
+      // 사용자가 한명도 없으면 방을 없앰
+      if (totalRooms[socket.room].users.length === 0) {
+        delete totalRooms[socket.room];
+      }
+    }
+
+    console.log('Client disconnected');
   });
 });
 
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+io.listen(port);
