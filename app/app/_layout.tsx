@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 
-import { Button } from 'react-native';
 import Header from '@/components/Header';
 
 const DarkTheme: Theme = {
