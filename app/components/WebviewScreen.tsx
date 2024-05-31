@@ -37,6 +37,7 @@ export default function WebViewScreen({ path, ...props }: WebViewScreenProps) {
         </View>
       )}
       allowsBackForwardNavigationGestures
+      style={{ backgroundColor: 'transparent' }}
       {...props}
     />
   );

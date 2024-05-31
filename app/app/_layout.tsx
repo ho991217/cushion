@@ -50,7 +50,7 @@ export default function RootLayout() {
           }}
         />
         <Stack.Screen
-          name='notification/index'
+          name='(stack)'
           options={{
             headerTitle: 'Stack',
             headerRight: () => <Button title='Sign Out' onPress={() => {}} />,
