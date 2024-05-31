@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -12,6 +12,13 @@ const Pretendard = localFont({
 export const metadata: Metadata = {
   title: '쿠션',
   description: '시니어 낙상 감지 시스템 - 쿠션',
+};
+
+export const viewport: Viewport = {
+  initialScale: 1,
+  maximumScale: 1,
+  minimumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({

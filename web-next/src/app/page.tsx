@@ -1,6 +1,6 @@
 import { Header, Tile } from '@components/home';
 import Image from 'next/image';
-import { FaPhoneFlip } from 'react-icons/fa6';
+import { FaMicrophone, FaPhoneFlip } from 'react-icons/fa6';
 import Demo from '../../public/images/demo.png';
 
 export default function HomePage() {
@@ -19,7 +19,10 @@ export default function HomePage() {
             <h4 className='text-lg font-medium'>응급 전화</h4>
           </Tile>
         </a>
-        <Tile className='w-full aspect-square' />
+        <Tile className='w-full aspect-square flex items-center justify-center flex-col gap-2'>
+          <FaMicrophone size={32} />
+          <h4 className='text-lg font-medium'>음성 통화</h4>
+        </Tile>
       </div>
     </section>
   );

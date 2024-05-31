@@ -52,8 +52,9 @@ export default function RootLayout() {
         <Stack.Screen
           name='(stack)'
           options={{
-            headerTitle: 'Stack',
-            headerRight: () => <Button title='Sign Out' onPress={() => {}} />,
+            headerBackground: () => <Header variant='back' />,
+            headerShown: false,
+            headerBackVisible: false,
           }}
         />
         <Stack.Screen name='+not-found' />
