@@ -42,6 +42,7 @@ export default function WebViewScreen({
       )}
       scrollEnabled={scrollEnabled}
       allowsBackForwardNavigationGestures
+      allowsInlineMediaPlayback
       style={{ backgroundColor: 'transparent' }}
       {...props}
     />

@@ -10,6 +10,12 @@ export default function Layout() {
         }}
       />
       <Stack.Screen
+        name='cam/[id]'
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name='setting/senior-info'
         options={{
           headerShown: false,
