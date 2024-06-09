@@ -5,3 +5,5 @@ input_videos
 yolov5s.pt
 yolov5m.pt
 .DS_Store
+
+uploads/**

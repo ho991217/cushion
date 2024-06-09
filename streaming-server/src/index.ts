@@ -1,73 +1,48 @@
-import express from 'express';
-import http from 'http';
-import cors from 'cors';
-import { Server } from 'socket.io';
+import express, { Request, Response } from 'express';
+import multer, { StorageEngine } from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 const app = express();
-app.use(cors());
-
 const port = 3001;
-const server = http.createServer(app);
 
-const io = new Server(server, {
-  cors: {
-    origin: '*',
-    methods: ['GET', 'POST'],
+// Ensure the uploads directory exists
+const uploadPath = path.join(__dirname, '../uploads');
+if (!fs.existsSync(uploadPath)) {
+  fs.mkdirSync(uploadPath);
+}
+
+// Set up multer for file upload
+const storage: StorageEngine = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const videoId = file.originalname.split('_frame_')[0]; // uuid
+    if (!fs.existsSync(path.join(uploadPath, videoId))) {
+      fs.mkdirSync(path.join(uploadPath, videoId));
+    }
+    cb(null, path.join(uploadPath, videoId));
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
   },
 });
 
-const totalRooms: Record<string, { users: string[] }> = {};
+const upload = multer({ storage: storage });
 
-io.on('connection', (socket: any) => {
-  console.log('a user connected');
+// Handle file upload
+app.post(
+  '/upload',
+  upload.array('images', 100),
+  (req: Request, res: Response) => {
+    console.log(req.files?.length, 'images uploaded');
+    res.send('Images uploaded');
+  }
+);
 
-  socket.on('join', (data: { room: string }) => {
-    if (!data.room) return;
-
-    socket.join(data.room);
-
-    // 방이 없으면 방을 만들어준다.
-    if (!totalRooms[data.room]) {
-      totalRooms[data.room] = { users: [] };
-    }
-
-    totalRooms[data.room].users.push(socket.id);
-    socket.room = data.room;
-
-    console.log(`join room ${data.room}. Socket ID: ${socket.id}`);
-  });
-
-  socket.on('offer', (data: { sdp: string; room: string }) => {
-    console.log('offer', data);
-    socket.to(data.room).emit('offer', { sdp: data.sdp, sender: socket.id });
-  });
-
-  socket.on('answer', (data: { sdp: string; room: string }) => {
-    console.log('answer', data);
-    socket.to(data.room).emit('answer', { sdp: data.sdp, sender: socket.id });
-  });
-
-  socket.on('candidate', (data: { candidate: string; room: string }) => {
-    socket.to(data.room).emit('candidate', {
-      candidate: data.candidate,
-      sender: socket.id,
-    });
-  });
-
-  socket.on('disconnect', () => {
-    // 연결이 끊어지면 방에서 사용자를 제거
-    if (socket.room && totalRooms[socket.room]) {
-      totalRooms[socket.room].users = totalRooms[socket.room].users.filter(
-        (id) => id !== socket.id
-      );
-      // 사용자가 한명도 없으면 방을 없앰
-      if (totalRooms[socket.room].users.length === 0) {
-        delete totalRooms[socket.room];
-      }
-    }
-
-    console.log('Client disconnected');
-  });
+// Serve a simple home page
+app.get('/', (req: Request, res: Response) => {
+  res.send('Welcome to the image upload server.');
 });
 
-io.listen(port);
+app.listen(port, () => {
+  console.log(`Server running on http://localhost:${port}`);
+});
