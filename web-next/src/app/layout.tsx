@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { cn } from '@/lib/utils';
+import { Toaster } from '@/components/ui/sonner';
+import { NotificationDetector } from '@/components/common';
 
 const Pretendard = localFont({
   src: '../../public/font/PretendardVariable.woff2',
@@ -34,6 +36,17 @@ export default function RootLayout({
           'w-screen h-screen flex flex-col items-center justify-start bg-black text-white p-5 overflow-y-scroll overflow-x-hidden'
         )}
       >
+        <Toaster
+          theme='dark'
+          position='top-center'
+          gap={8}
+          toastOptions={{
+            classNames: {
+              toast: 'text-lg font-bold',
+            },
+          }}
+        />
+        <NotificationDetector />
         {children}
       </body>
     </html>

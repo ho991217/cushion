@@ -1,15 +1,10 @@
 'use client';
 
-// pages/index.tsx
-import React from 'react';
-
-const VideoStream = () => {
+export default function LiveView() {
   return (
     <div>
-      <h1>Live Video Stream</h1>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src='http://localhost:5500/video_feed' alt='Video Stream' />
     </div>
   );
-};
-
-export default VideoStream;
+}
