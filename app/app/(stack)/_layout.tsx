@@ -33,6 +33,12 @@ export default function Layout() {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name='onboarding/login'
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack>
   );
 }

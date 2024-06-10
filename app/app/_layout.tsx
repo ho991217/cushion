@@ -56,6 +56,10 @@ export default function RootLayout() {
             headerBackVisible: false,
           }}
         />
+        <Stack.Screen
+          name='onboarding'
+          options={{ headerShown: false, headerBackVisible: false }}
+        />
         <Stack.Screen name='+not-found' />
       </Stack>
     </ThemeProvider>

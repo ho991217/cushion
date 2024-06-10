@@ -16,3 +16,13 @@ export function isServer() {
 export function isApp() {
   return isClient() && typeof window.ReactNativeWebView !== 'undefined';
 }
+
+export function hardPush(url: string) {
+  const postMessage = (message: string) => {
+    if (isApp()) {
+      window.ReactNativeWebView.postMessage(message);
+    }
+  };
+  
+  postMessage(JSON.stringify({ type: 'navigate', data: url }));
+}

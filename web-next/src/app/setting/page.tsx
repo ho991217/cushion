@@ -49,7 +49,7 @@ export default function SettingRootPage() {
       <div className='gap-4 w-full'>
         <Link
           hardLink
-          to='/'
+          to='/onboarding/login'
           className='w-full bg-red-700 text-white h-12 rounded-xl flex items-center justify-center'
         >
           <span>로그아웃</span>

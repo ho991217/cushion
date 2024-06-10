@@ -25,7 +25,11 @@ def capture_and_send_images(fps:int = 10, duration:int = 10):
         del images
 
 def send_images_to_server(images):
-    url = "http://localhost:3001/upload"
-    files = [('images', (f'{uid}_frame_{i}.jpg', img, 'image/jpeg')) for uid, i, img in images]
-    response = requests.post(url, files=files)
-    print(response.status_code)
+    try:
+        url = "http://localhost:3001/upload"
+        files = [('images', (f'{uid}_frame_{i}.jpg', img, 'image/jpeg')) for uid, i, img in images]
+        response = requests.post(url, files=files)
+        print(response.status_code)
+    except Exception as e:
+        print(f"Failed to send images to server: {e}")
+        
