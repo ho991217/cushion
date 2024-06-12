@@ -34,6 +34,7 @@ def generate_frames():
         frame = buffer.tobytes()
         yield (b'--frame\r\n'
                b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+
         
 def start_stream():
     app.run(host='0.0.0.0', port=5500)

@@ -20,6 +20,7 @@ export default function Block({
 }: BlockProps) {
   return (
     <Link
+      hardLink
       to={`/gallery/${id}`}
       className={cn(
         'flex flex-col w-full rounded-2xl border border-input bg-background p-4 items-start justify-center text-sm active:scale-[98%] active:opacity-80 transition-all select-none',

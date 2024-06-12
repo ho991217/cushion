@@ -12,7 +12,7 @@ export default async function EventPage({
   };
 }) {
   const data = (await (
-    await fetch(`http://43.201.222.62:8080/fall_event/${videoId}`)
+    await fetch(`http://43.201.222.62:8080/api/fall_event/${videoId}`)
   ).json()) as Event;
 
   return (

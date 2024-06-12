@@ -34,7 +34,7 @@ export default function Layout() {
         }}
       />
       <Stack.Screen
-        name='onboarding/login'
+        name='gallery/[id]'
         options={{
           headerShown: false,
         }}

@@ -6,6 +6,10 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'fall-detection-bucket.s3.ap-northeast-2.amazonaws.com',
       },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
     ],
   },
 };
