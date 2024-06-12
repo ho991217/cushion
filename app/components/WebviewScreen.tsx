@@ -13,6 +13,7 @@ interface WebViewScreenProps extends Omit<WebViewProps, 'source'> {
 export default function WebViewScreen({
   path,
   scrollEnabled = false,
+  pullToRefreshEnabled,
   ...props
 }: WebViewScreenProps) {
   const router = useRouter();
@@ -43,6 +44,7 @@ export default function WebViewScreen({
       scrollEnabled={scrollEnabled}
       allowsBackForwardNavigationGestures
       allowsInlineMediaPlayback
+      pullToRefreshEnabled={pullToRefreshEnabled}
       style={{ backgroundColor: 'transparent' }}
       {...props}
     />

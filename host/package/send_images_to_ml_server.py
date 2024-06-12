@@ -7,6 +7,8 @@ import os
 
 cap = cv2.VideoCapture(0)
 
+device_id = 1
+
 def capture_and_send_images(fps:int = 10, duration:int = 10):
     frame_count = fps * duration
     while True:
@@ -26,7 +28,7 @@ def capture_and_send_images(fps:int = 10, duration:int = 10):
         did_fall = send_images_to_server(unique_id, images)
         
         if did_fall:
-            send_notification("낙상", "낙상이 감지되었습니다.", "test_user")
+            send_notification("fall", f'{device_id}에서 낙상이 감지되었어요! 즉시 확인 후 조치해주세요.')
             print('fall detected')
             
             video_path = save_frames_as_video(frames, unique_id, fps)

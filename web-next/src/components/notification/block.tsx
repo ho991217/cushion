@@ -1,18 +1,26 @@
+import { generateNotiType } from '@/lib';
 import { cn } from '@/lib/utils';
+import ReadButton from './read-button';
 
 type BlockProps = {
   type?: 'info' | 'ad' | 'fall';
+  id: number;
   message: string;
   className?: string;
   isRead?: boolean;
+  time?: string;
 };
 
 export default function Block({
   type = 'info',
+  id,
   message,
   isRead = false,
+  time,
   className,
 }: BlockProps) {
+  const parsedTime = time ? new Date(time) : new Date();
+  time = parsedTime.toLocaleString();
   return (
     <div
       className={cn(
@@ -23,11 +31,12 @@ export default function Block({
     >
       <div className='flex flex-col'>
         <span className='text-muted-foreground text-xs mb-1'>
-          {type === 'info' ? '알림' : type === 'ad' ? '광고' : '🚨 감지된 낙상'}
+          {generateNotiType(type)}
         </span>
         <h4 className='font-medium max-w-[200px] leading-5'>{message}</h4>
+        <span className='text-muted-foreground text-xs mt-2'>{time}</span>
       </div>
-      {!isRead && <button className='text-sm text-primary'>확인하기</button>}
+      {!isRead && <ReadButton id={id} />}
     </div>
   );
 }

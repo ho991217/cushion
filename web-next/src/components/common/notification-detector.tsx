@@ -1,25 +1,40 @@
 'use client';
 
+import { generateNotiType, supabase } from '@/lib';
+import { RealtimePostgresInsertPayload } from '@supabase/supabase-js';
 import { useEffect } from 'react';
 import { toast } from 'sonner';
 
-type Notification = {
-  title: string;
+export type NotificationType = 'ad' | 'fall' | 'info';
+
+export type Notification = {
+  created_at: string;
+  id: number;
   message: string;
-  user: string;
+  type: NotificationType;
+  isRead: boolean;
+  link?: string;
 };
 
 export default function NotificationDetector() {
   useEffect(() => {
-    const eventSource = new EventSource('http://localhost:5500/sse');
-
-    eventSource.addEventListener('notification', function (event) {
-      const data: Notification = JSON.parse(event.data);
-      toast.warning(`[${data.title}] ${data.message}`);
-    });
-
+    const channel = supabase
+      .channel('schema-db-changes')
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'notifications',
+        },
+        ({
+          new: { id, type, message, created_at },
+        }: RealtimePostgresInsertPayload<Notification>) =>
+          toast(`(${generateNotiType(type)}) ${message}`)
+      )
+      .subscribe();
     return () => {
-      eventSource.close();
+      supabase.removeChannel(channel);
     };
   }, []);
 

@@ -3,15 +3,22 @@ import cv2
 from flask_sse import sse
 from flask_cors import CORS
 
+from supabase import create_client, Client
+
+url: str = 'https://vutmzwowadamoutfdmkv.supabase.co'
+key: str = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ1dG16d293YWRhbW91dGZkbWt2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3MTc5NzQ5MTAsImV4cCI6MjAzMzU1MDkxMH0.vGr7EtVesxc8EiLmhFg4Z7UI2K8LirwHz-100NltKC8'
+supabase: Client = create_client(url, key)
+
 app = Flask(__name__)
 app.config["REDIS_URL"] = "redis://localhost:6379/0"
 app.register_blueprint(sse, url_prefix='/sse')
 CORS(app, resources={r"*": {"origins": "*"}})  # CORS 설정
 
-def send_notification(title: str, message: str, user: str):
-    with app.app_context():
-        data = {'title': title, 'message': message, 'user': user}
-        sse.publish(data, type='notification')
+def send_notification(type: str, message: str):
+    # with app.app_context():
+    #     data = {'title': title, 'message': message, 'user': user}
+    #     sse.publish(data, type='notification')
+    supabase.from_('notifications').insert([{'type': type, 'message': message}]).execute()
 
 cap = cv2.VideoCapture(0)
 

@@ -27,7 +27,7 @@ def recognize_speech(keywords: list):
             for keyword in keywords:
                 if keyword in text:
                     print(f"Keyword detected: {keyword}")
-                    send_notification("구조요청", "구조요청이 감지되었습니다.", "test_user")
+                    send_notification("info", "어르신의 구조요청이 감지되었습니다.")
                     break
                 
         except sr.UnknownValueError:
