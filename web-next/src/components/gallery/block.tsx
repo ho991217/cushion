@@ -23,21 +23,23 @@ export default function Block({
       hardLink
       to={`/gallery/${id}`}
       className={cn(
-        'flex flex-col w-full rounded-2xl border border-input bg-background p-4 items-start justify-center text-sm active:scale-[98%] active:opacity-80 transition-all select-none',
+        'flex flex-col w-full rounded-2xl border border-input bg-background p-2 items-start justify-center text-sm active:scale-[98%] active:opacity-80 transition-all select-none',
         className
       )}
     >
-      <div className='flex items-start space-x-4'>
+      <div className='flex items-start space-x-4 w-full'>
         <Image
           src={thumbnail}
           alt={title}
           width={80}
           height={80}
-          className='h-20 w-20 rounded-xl object-cover border border-input'
+          className='h-24 w-24 rounded-xl object-cover border border-input'
         />
-        <div className='flex flex-col h-full items-start justify-between'>
-          <div>
-            <h3 className='text-lg font-semibold text-white'>{title}</h3>
+        <div className='flex flex-col h-full items-start justify-between overflow-hidden pr-2 py-2'>
+          <div className='w-full overflow-hidden'>
+            <h3 className='text-lg font-semibold text-white text-ellipsis'>
+              {title}
+            </h3>
             <p className='text-sm text-neutral-500'>{date} - 거실</p>
           </div>
           <div className='flex items-center gap-1 text-muted-foreground'>

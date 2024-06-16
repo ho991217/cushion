@@ -11,12 +11,15 @@ import {
 } from 'react-icons/io5';
 import { FaPhoneFlip } from 'react-icons/fa6';
 import { cn } from '@/lib';
-import Image from 'next/image';
 
-export default function LiveViewPage() {
+export default function LiveViewPage({
+  params: { camId },
+}: {
+  params: { camId: string };
+}) {
   return (
     <div className='flex flex-col gap-4 w-full'>
-      <LiveView />
+      <LiveView camId={camId} />
       <Block>
         <span className='text-xs ml-2'>거실 카메라</span>
         <div className='w-full flex items-center gap-2'>

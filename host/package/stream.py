@@ -14,17 +14,20 @@ app.config["REDIS_URL"] = "redis://localhost:6379/0"
 app.register_blueprint(sse, url_prefix='/sse')
 CORS(app, resources={r"*": {"origins": "*"}})  # CORS 설정
 
+tapo_id = "ho991217"
+tapo_pw = "Jy219512"
+tapo_ip = "192.168.0.75"
+rtsp_url = f'rtsp://{tapo_id}:{tapo_pw}@{tapo_ip}:554/stream2'
+
 def send_notification(type: str, message: str):
-    # with app.app_context():
-    #     data = {'title': title, 'message': message, 'user': user}
-    #     sse.publish(data, type='notification')
     supabase.from_('notifications').insert([{'type': type, 'message': message}]).execute()
 
-cap = cv2.VideoCapture(0)
+embeded_webcam = cv2.VideoCapture(0) # id: 0
+tapo_cam = cv2.VideoCapture(rtsp_url) # id: 1
 
-@app.route('/video_feed')
-def video_feed():
-    return Response(generate_frames(),
+@app.route('/video_feed/<int:cam_id>')
+def video_feed(cam_id):
+    return Response(generate_frames(cam_id),
                     mimetype='multipart/x-mixed-replace; boundary=frame')
     
 @app.route('/notification')
@@ -32,7 +35,14 @@ def notification():
     send_notification("구조요청", "구조요청이 감지되었습니다.", "test_user")
     return "Notification sent."
     
-def generate_frames():
+def generate_frames(id: int):
+    if id == 0:
+        cap = embeded_webcam
+    elif id == 1:
+        cap = tapo_cam
+    else:
+        cap = embeded_webcam
+        
     while True:
         ret, frame = cap.read()
         if not ret:

@@ -16,31 +16,13 @@ export default function HomePage({
   const filterOptions = ['모든 카메라', '거실', '침실', '주방'];
 
   const cams = [
-    <Cam key='거실' id={1} location='거실' name='거실 카메라' />,
+    <Cam key='거실' id={0} location='거실' name='거실 카메라' />,
     <Cam key='주방' id={1} location='주방' name='주방 카메라' />,
-    <Cam key='침실' id={1} location='침실' name='침실 카메라' />,
+    // <Cam key='침실' id={2} location='침실' name='침실 카메라' />,
   ];
 
   return (
     <section className='w-full h-full flex flex-col items-center justify-between'>
-      {/* <div className='w-full flex flex-col gap-4 mb-4'>
-        <Header title='라이브 뷰' more='자세히 보기' />
-        <Tile className='w-full aspect-[2/1] overflow-hidden relative'>
-          <Image src={Demo} alt='이미지' objectFit='cover' fill />
-        </Tile>
-      </div>
-      <div className='w-full grid gap-4 grid-cols-2'>
-        <a href='tel:119'>
-          <Tile className='w-full aspect-square flex items-center justify-center flex-col gap-2 bg-red-500'>
-            <FaPhoneFlip size={32} />
-            <h4 className='text-lg font-medium'>응급 전화</h4>
-          </Tile>
-        </a>
-        <Tile className='w-full aspect-square flex items-center justify-center flex-col gap-2'>
-          <FaMicrophone size={32} />
-          <h4 className='text-lg font-medium'>음성 통화</h4>
-        </Tile>
-      </div> */}
       <div className='w-full flex flex-col'>
         <ul className='flex gap-4 font-medium text-lg mb-4'>
           {filterOptions.map((option) => (
