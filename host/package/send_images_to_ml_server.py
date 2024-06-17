@@ -5,12 +5,10 @@ import requests
 from package.stream import send_notification, embeded_webcam, tapo_cam
 import os
 
-device_id = 1
-
-def capture_and_send_images(cam_id:int = 0, fps:int = 10, duration:int = 10):
-    if cam_id == 0:
+def capture_and_send_images(cam_id:int = 1, fps:int = 10, duration:int = 10):
+    if cam_id == 1:
         cap = embeded_webcam
-    elif cam_id == 1:
+    elif cam_id == 2:
         cap = tapo_cam
     else:
         cap = embeded_webcam
@@ -77,7 +75,7 @@ def upload_video_to_server(device_id:int, video_path):
     url = "http://43.201.222.62:8080/api/videos/upload"
     files = {'file': (video_path, open(video_path, 'rb'), 'video/mp4')}
     payload = {
-        "deviceId": f'{device_id}',
+        "deviceId": "1",
     }
     headers = {}
 

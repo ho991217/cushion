@@ -36,9 +36,9 @@ def notification():
     return "Notification sent."
     
 def generate_frames(id: int):
-    if id == 0:
+    if id == 1:
         cap = embeded_webcam
-    elif id == 1:
+    elif id == 2:
         cap = tapo_cam
     else:
         cap = embeded_webcam

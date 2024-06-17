@@ -4,5 +4,7 @@ import { useLocalSearchParams } from 'expo-router';
 export default function Cam() {
   const { id } = useLocalSearchParams();
 
-  return <WebViewScreen path={`/cam/${id}`} pullToRefreshEnabled />;
+  return (
+    <WebViewScreen path={`/cam/${id}`} pullToRefreshEnabled scrollEnabled />
+  );
 }

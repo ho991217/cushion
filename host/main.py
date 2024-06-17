@@ -6,7 +6,8 @@ from package.stream import start_stream
 
 fps = 10
 duration = 5
-cam_id = 0
+cam_id = 1
+# cam_id = 1 # 1: embeded webcam, 2: tapo camera
 
 if __name__ == '__main__':
     flask_thread = threading.Thread(target=start_stream)

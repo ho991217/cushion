@@ -16,8 +16,8 @@ export default function HomePage({
   const filterOptions = ['모든 카메라', '거실', '침실', '주방'];
 
   const cams = [
-    <Cam key='거실' id={0} location='거실' name='거실 카메라' />,
-    <Cam key='주방' id={1} location='주방' name='주방 카메라' />,
+    <Cam key='거실' id={1} location='거실' name='거실 카메라' />,
+    <Cam key='주방' id={2} location='주방' name='주방 카메라' />,
     // <Cam key='침실' id={2} location='침실' name='침실 카메라' />,
   ];
 
